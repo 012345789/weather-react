@@ -1,0 +1,84 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App .hidden {
+  display: none;
+}
+
+.App #custom-location {
+  margin-top: 5px;
+  border-radius: 3px;
+  border: none;
+}
+
+.App #custom-location .city-input {
+  margin-right: 1px 3px 0 0;
+  border: solid #ABAFB0 1px;
+  border-radius: inherit;
+  width: 200px;
+  padding: 2px;
+  font-size: 16px;
+  position: relative;
+  top: 1px;
+}
+
+.App #custom-location #lookup-button {
+  border: solid #ABAFB0 1px;
+  border-radius: inherit;
+  margin-left: 3px;
+  font-size: 14px;
+  background-color: #EBF4F7;
+}
+
+.App #custom-location #lookup-button:hover {
+  background-color: #D5E0E3;
+  cursor: pointer;
+}
+
+.App #forecast-container {
+  text-align: center;
+  width: 100%;
+}
+
+.App #weather-for-all-days {
+  border-bottom: solid 1px #3C545C;
+}
+
+.App .time {
+  border-top: solid 1px #14ADE0;
+}
+
+.App .one-day {
+  border: solid 2px #E04714;
+  text-align: center;
+}
+
+.App .test1 {
+  background-color: pink;
+}
+
+.App .test2 {
+  color: white;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
