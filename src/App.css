@@ -7,7 +7,7 @@
   height: 80px;
 }
 
-.App-header {
+#App-header {
   background-color: #222;
   height: 150px;
   padding: 20px;
@@ -28,7 +28,7 @@
   border: none;
 }
 
-.App #custom-location .city-input {
+.App #custom-location #location-input {
   margin-right: 1px 3px 0 0;
   border: solid #ABAFB0 1px;
   border-radius: inherit;
@@ -68,6 +68,7 @@
 .App .one-day {
   border: solid 2px #E04714;
   text-align: center;
+  margin: 0.49rem 2%;
 }
 
 .App .test1 {
