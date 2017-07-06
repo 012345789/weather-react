@@ -3,7 +3,7 @@ import _ from 'underscore';
 
 export default function getCoordinates(city) {
   const geocoderApiKey = '399e7c0319f043649277fc49a1b62629';
-  const geocoderEndpoint = city => `http://api.opencagedata.com/geocode/v1/json`
+  const geocoderEndpoint = city => `//api.opencagedata.com/geocode/v1/json`
     + `?q=${city}&key=${geocoderApiKey}`;
   return fetch(geocoderEndpoint(city))
     .then(response => response.json())

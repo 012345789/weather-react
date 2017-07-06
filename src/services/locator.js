@@ -3,7 +3,7 @@ import _ from 'underscore';
 
 // Returns an estimate of the user's location based on visiting IP address
 export default function locateUser() {
-  const ipLocatorUrl = 'http://ip-api.com/json/';
+  const ipLocatorUrl = '//ip-api.com/json/';
   return fetch(ipLocatorUrl)
     .then(function(response) {
       let res = response.json();

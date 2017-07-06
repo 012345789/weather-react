@@ -87,7 +87,7 @@ class App extends Component {
           ).toLocaleTimeString();
           let hour = offsetDateTime.split(':')[0];
           let amOrPm = offsetDateTime.split(' ')[1];
-          let iconUrl = 'http://openweathermap.org/img/w/'
+          let iconUrl = '//openweathermap.org/img/w/'
           oneDay.push(
             <div className="time" key={`time-${data.city}-${offsetDateTime}`}>
               <div>

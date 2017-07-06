@@ -8,7 +8,7 @@ let previousCity;
 export default function getWeather(city, countryCode) {
   const apiKey = '3d3c42b9c508782e9479920452a82fed';
   const customLocation = `${city},${countryCode}`;
-  const weatherEndpoint = 'http://api.openweathermap.org/data/2.5/forecast?q='
+  const weatherEndpoint = '//api.openweathermap.org/data/2.5/forecast?q='
     +  `${customLocation}&appid=${apiKey}`;
 
   return fetch(weatherEndpoint)

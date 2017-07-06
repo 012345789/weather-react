@@ -4,7 +4,7 @@ let offset;
 const offsetEndpoint = (lat, long) => {
   let latRounded = Math.round(lat);
   let lonRounded = Math.round(long);
-  return `http://api.geonames.org/timezoneJSON?lat=${latRounded}`
+  return `//api.geonames.org/timezoneJSON?lat=${latRounded}`
     + `&lng=${lonRounded}&username=gorlanyuen`;
 };
 
