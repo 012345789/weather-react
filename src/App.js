@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './images/logo.svg';
 import './libraries/simple-grid.css';
 import './App.css';
 import locateUser from './services/locator.js';
@@ -18,28 +18,36 @@ class App extends Component {
       countryCode: '',
       customLocation: '',
       weatherDataDisplay: '',
-      offset: 0
+      errorText: '',
+      offset: 0,
+      loadingWeather: 'spinner'
     };
   }
 
   componentDidMount() {
     let locationPromise = locateUser();
     let app = this;
-    locationPromise.then(data => app.loadWeatherForLocation(data));
+    locationPromise.then(data => app._loadWeatherForLocation(data));
   }
 
-  updateCityInput(evt) {
+  _updateCityInput(evt) {
     this.setState({customLocation: evt.target.value});
   }
 
-  lookUp(e) {
+  _lookUp(e) {
     e.preventDefault();
-    // show loading spinner
     let app = this;
-    console.log(`Looking up weather for... ${this.state.customLocation}`);
+    app.setState({
+      loadingWeather: 'spinner'
+    });
     getCoordinates(this.state.customLocation)
       .then(coordinatesData => {
-        app.loadWeatherForLocation({
+        if (coordinatesData.error) {
+          this._showError(coordinatesData.error);
+          return;
+        }
+
+        app._loadWeatherForLocation({
           city: app.state.customLocation,
           lat: coordinatesData.lat,
           lon: coordinatesData.lon,
@@ -49,7 +57,7 @@ class App extends Component {
       });
   }
 
-  loadWeatherForLocation(data) {
+  _loadWeatherForLocation(data) {
     let app = this;
     getOffset(data.lat, data.lon, data.newLocation)
       .then(function(offset) {
@@ -61,31 +69,33 @@ class App extends Component {
       let dates = (_.keys(weatherData)).slice(0,5);
       let allDays = [];
       allDays.push(
-        <div className="col-1 grid-column-margin">
+        <div className="col-1 grid-column-margin" key="left-margin">
         </div>
       );
-      dates.forEach(day => {
+      dates.forEach((day, dateIndex) => {
         let oneDay = [];
         let dayWithoutTime = new Date(day.split(' ')[0]);
         oneDay.push(
-          <div className="date-header">
+          <div className="date-header" key={`header-${data.city}-${day}`}>
             {dayWithoutTime.toDateString()}
           </div>
         );
         weatherData[day].forEach(time => {
           let dateTime = new Date(time.dt_txt);
-          let dateTimeLocale = dateTime.toLocaleTimeString();
-          let offsetDateTime = new Date(dateTime.setHours(dateTime.getHours() + app.state.offset)).toLocaleTimeString();
+          let offsetDateTime = new Date(dateTime.setHours(
+            dateTime.getHours() + app.state.offset)
+          ).toLocaleTimeString();
           let hour = offsetDateTime.split(':')[0];
           let amOrPm = offsetDateTime.split(' ')[1];
           let iconUrl = 'http://openweathermap.org/img/w/'
           oneDay.push(
-            <div className="time">
+            <div className="time" key={`time-${data.city}-${offsetDateTime}`}>
               <div>
                 {hour + ' ' + amOrPm}
               </div>
               <div>
-                <img src={iconUrl + time.weather[0].icon + '.png'} alt={time.weather[0].main}/>
+                <img src={iconUrl + time.weather[0].icon + '.png'}
+                  alt={time.weather[0].main}/>
               </div>
               <div>
                 {time.weather[0].description}
@@ -97,29 +107,39 @@ class App extends Component {
           );
         });
         allDays.push(
-          <div className="col-2 one-day">
+          <div className="col-2 one-day" key={`full-${day}-${data.city}`}>
             {oneDay}
           </div>
         );
       });
       allDays.push(
-        <div className="col-1 grid-column-margin">
+        <div className="col-1 grid-column-margin" key="rightMargin">
         </div>
       );
+      app._clearError();
       app.setState({weatherDataDisplay:
         <div className="row" id="weather-for-all-days">
           {allDays}
-        </div>
-      });
-      // hide loading spinner
+        </div>,
+        loadingWeather: ''});
     });
+  }
+
+  _showError(message) {
+    this.setState({errorText: message, loadingWeather: ''});
+  }
+
+  _clearError() {
+    this.setState({errorText: ''});
   }
 
   render() {
     return (
       <div className="App">
         <div id="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <div id="logo-container">
+            <img src={logo} className="App-logo" alt="logo" />
+          </div>
           <h2>
             Weather {this.state.city ? ' in ' : 'Loading'}
             {this.state.city.split(' ').map(word => {
@@ -132,31 +152,43 @@ class App extends Component {
         </p>
 
         <div id="forecast-container">
-          {this.state.weatherDataDisplay}
+          <div className="row">
+            <div className={'large col-12 ' + this.state.loadingWeather}>
+            </div>
+          </div>
+          {this.state.loadingWeather ? '' : this.state.weatherDataDisplay}
         </div>
 
-        <div>Looking for the weather elsewhere?</div>
-        <form onSubmit={this.lookUp.bind(this)}>
+        <div id="elsewhere-text">Looking for the weather elsewhere?</div>
+        <form onSubmit={this._lookUp.bind(this)}>
           <div id="custom-location">
             <input
               id="location-input"
               name="location-input"
+              ref="locationInput"
               type="text"
               placeholder="Enter City"
               value={this.state.customLocation}
-              onChange={evt => this.updateCityInput(evt)}
+              onChange={evt => this._updateCityInput(evt)}
             />
+            {
+              /* TODO (enhancement): disable if loading*/
+            }
             <button
               className="button"
               id="lookup-button"
+              ref="lookUpButton"
               type="submit">
-                Look up
+                <span ref="buttonText">
+                  Look up
+                </span>
             </button>
+            <div id="error-text">
+              {this.state.errorText}
+            </div>
           </div>
         </form>
-        <div className="hidden" id="location-not-found-text">
-          That location could not be found.
-        </div>
+
       </div>
     );
   }

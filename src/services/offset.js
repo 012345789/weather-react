@@ -10,7 +10,6 @@ const offsetEndpoint = (lat, long) => {
 
 // Returns the offset of an geographical location given the lat and lon coordinates
 function fetchOffset(lat, lon) {
-  console.log('fetching offset');
   return fetch(offsetEndpoint(lat, lon))
     .then(function(response) {
       return response.json();
@@ -22,8 +21,6 @@ function fetchOffset(lat, lon) {
 }
 
 export default function getOffset(lat, lon, newLocation=false) {
-  console.log('newLocation: ', newLocation)
-  // newLocation = newLocation || false;
   if (offset && !newLocation) {
     return Promise.resolve(offset);
   }

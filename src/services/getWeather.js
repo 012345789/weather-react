@@ -17,11 +17,9 @@ export default function getWeather(city, countryCode) {
       return res;
     })
     .then(function(data) {
-      console.log('getWeather service data: ', data);
       if (data.cod !== "200") {
         throw new Error('Weather could not be fetched. Please try again later');
       }
-      // TODO: handle case where city is invalid
       return getOffset(data.city.coord.lat, data.city.coord.lon, data.city.name !== previousCity)
         .then(function(offset) {
           previousCity = data.city.name;
@@ -37,6 +35,5 @@ function _synthesizeAndFormatWeather(data, offset) {
     let res = new Date(currentDate.setHours(hour + offset)).toLocaleDateString();
     return res;
   });
-  console.log('weatherByDay: ', weatherByDay)
   return weatherByDay;
 }

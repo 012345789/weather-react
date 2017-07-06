@@ -3,8 +3,8 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 80px;
+  margin-top: 3px;
 }
 
 #App-header {
@@ -12,6 +12,14 @@
   height: 150px;
   padding: 20px;
   color: white;
+}
+
+.App #logo-container {
+  display: inline-block;
+  background-color: #82BDBD;
+  border-radius: 100%;
+  height: 97px;
+  width: 97px;
 }
 
 .App-intro {
@@ -22,10 +30,15 @@
   display: none;
 }
 
+.App #elsewhere-text {
+  margin-top: 20px;
+}
+
 .App #custom-location {
   margin-top: 5px;
   border-radius: 3px;
   border: none;
+  margin-bottom: 30px;
 }
 
 .App #custom-location #location-input {
@@ -53,12 +66,16 @@
 }
 
 .App #forecast-container {
-  text-align: center;
   width: 100%;
+  min-height: 100px;
 }
 
 .App #weather-for-all-days {
   border-bottom: solid 1px #3C545C;
+}
+
+.App #error-text {
+  color: #ED2647;
 }
 
 .App .time {
@@ -71,15 +88,26 @@
   margin: 0.49rem 2%;
 }
 
-.App .test1 {
-  background-color: pink;
+@keyframes spinner {
+  to {transform: rotate(360deg);}
 }
 
-.App .test2 {
-  color: white;
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 46%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  border-radius: 50%;
+  border-top: 2px solid #07d;
+  border-right: 2px solid transparent;
+  animation: spinner .6s linear infinite;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.large:before {
+  width: 100px;
+  height: 100px;
 }
